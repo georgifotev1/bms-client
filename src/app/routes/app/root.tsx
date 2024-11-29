@@ -1,12 +1,12 @@
 import { Outlet } from "react-router";
-import { DashboardLayout } from "../../../components/layouts/dashboard-layout";
+import { AppLayout } from "../../../components/app/layouts/app-layout";
 
 export const AppRoot = () => {
   return (
     <>
-      <DashboardLayout>
+      <AppLayout>
         <Outlet />
-      </DashboardLayout>
+      </AppLayout>
     </>
   );
 };
