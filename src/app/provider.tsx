@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, Suspense, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { queryConfig } from "../lib/react-query";
 import { Spinner } from "../components/ui/spinner/spinner";
@@ -7,8 +7,8 @@ import { MainErrorFallback } from "../components/errors/main";
 import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [queryClient] = React.useState(
+export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: queryConfig,
@@ -16,7 +16,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <React.Suspense
+    <Suspense
       fallback={
         <div className="flex h-screen w-screen items-center justify-center">
           <Spinner />
@@ -31,6 +31,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           </QueryClientProvider>
         </HelmetProvider>
       </ErrorBoundary>
-    </React.Suspense>
+    </Suspense>
   );
 };
