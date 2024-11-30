@@ -8,6 +8,7 @@ const createAppRouter = () =>
       path: paths.app.root.path,
       element: <AppRoot />,
       ErrorBoundary: AppRootErrorBoundary,
+      HydrateFallback: AppRoot,
       children: [
         {
           path: paths.app.dashboard.path,
