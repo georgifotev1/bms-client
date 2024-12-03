@@ -12,7 +12,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     () =>
       new QueryClient({
         defaultOptions: queryConfig,
-      })
+      }),
   );
 
   return (

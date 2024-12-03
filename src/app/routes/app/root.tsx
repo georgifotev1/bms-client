@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { AppLayout } from "../../../components/app/layouts/app-layout";
+import { AppLayout } from "../../../components/layouts/app-layout";
 
 export const AppRoot = () => {
   return (

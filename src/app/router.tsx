@@ -20,6 +20,16 @@ const createAppRouter = () =>
           },
           ErrorBoundary: AppRootErrorBoundary,
         },
+        {
+          path: paths.app.hotels.path,
+          lazy: async () => {
+            const { HotelsRoute } = await import("./routes/app/hotels");
+            return {
+              Component: HotelsRoute,
+            };
+          },
+          ErrorBoundary: AppRootErrorBoundary,
+        },
       ],
     },
     {
