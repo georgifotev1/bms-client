@@ -6,6 +6,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { MainErrorFallback } from "../components/errors/main";
 import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Notifications } from "../components/ui/notifications/notifications";
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(
@@ -27,6 +28,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {import.meta.env.DEV && <ReactQueryDevtools />}
+            <Notifications />
             {children}
           </QueryClientProvider>
         </HelmetProvider>

@@ -1,14 +1,9 @@
-import { NavLink } from "react-router"
-
+import { NavLink } from "react-router";
 
 type LinkProps = React.LinkHTMLAttributes<HTMLLinkElement> & {
-    to: string
-  };
-  
+  to: string;
+};
+
 export const Link = (props: LinkProps) => {
-    return (
-        <NavLink to={props.to}>
-            {props.children}
-        </NavLink>
-    )
-}
+  return <NavLink to={props.to}>{props.children}</NavLink>;
+};
