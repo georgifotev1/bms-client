@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { NavBar } from "../app/navbar/navbar";
-import { SideBar } from "../app/sidebar/sidebar";
+import { NavBar } from "../../features/dashboard/components/navbar/navbar";
+import { SideBar } from "../../features/dashboard/components/sidebar/sidebar";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   return (

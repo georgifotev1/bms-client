@@ -1,5 +1,5 @@
 import { BellIcon } from "lucide-react";
-import { Button } from "../../ui/button/button";
+import { Button } from "../../../../components/ui/button/button";
 
 export const NavBar = () => {
   return (

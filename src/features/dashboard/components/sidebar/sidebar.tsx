@@ -1,6 +1,6 @@
 import { ChevronDown, HotelIcon, List, PieChart } from "lucide-react";
 import { NavLink } from "react-router";
-import { paths } from "../../../config/paths";
+import { paths } from "../../../../config/paths";
 
 export const SideBar = () => {
   return (
