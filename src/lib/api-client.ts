@@ -63,14 +63,14 @@ async function fetchWrapper(
 export const api = {
   get: (url: string, options: RequestInit = {}) =>
     fetchWrapper(url, { method: "GET", ...options }),
-  post: (url: string, body: any, options: RequestInit = {}) =>
+  post: (url: string, body?: any, options: RequestInit = {}) =>
     fetchWrapper(url, {
       method: "POST",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
       ...options,
     }),
-  put: (url: string, body: any, options: RequestInit = {}) =>
+  put: (url: string, body?: any, options: RequestInit = {}) =>
     fetchWrapper(url, {
       method: "PUT",
       body: JSON.stringify(body),
