@@ -1,4 +1,4 @@
-export const Form = () => {
+export const Form = (props: any) => {
   return (
     <form className="space-y-6" action="#">
       <h5 className="text-xl font-medium text-gray-900 dark:text-white">
