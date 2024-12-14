@@ -1,6 +1,7 @@
 import { Link } from "../../../components/ui/link/link";
 import { Spinner } from "../../../components/ui/spinner/spinner";
-import { HotelsData, useHotels } from "../api/get-hotels";
+import { HotelsData } from "../../../types/api";
+import { useHotels } from "../api/get-hotels";
 
 export const HotelsList = () => {
   const hotelsQuery = useHotels();

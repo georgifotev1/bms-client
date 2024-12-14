@@ -1,46 +1,62 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { paths } from "../config/paths";
 import { AppRoot, AppRootErrorBoundary } from "./routes/app/root";
+import { Spinner } from "../components/ui/spinner/spinner";
 
 const createAppRouter = () =>
   createBrowserRouter([
     {
+      path: paths.home.path,
+      HydrateFallback: Spinner,
+      lazy: () =>
+        import("./routes/landing").then(({ LandinRoute }) => ({
+          Component: LandinRoute,
+        })),
+    },
+    {
+      path: paths.auth.register.path,
+      HydrateFallback: Spinner,
+      lazy: () =>
+        import("./routes/auth/register").then(({ RegisterRoute }) => ({
+          Component: RegisterRoute,
+        })),
+    },
+    {
+      path: paths.auth.login.path,
+      HydrateFallback: Spinner,
+      lazy: () =>
+        import("./routes/auth/login").then(({ LoginRoute }) => ({
+          Component: LoginRoute,
+        })),
+    },
+    {
       path: paths.app.root.path,
       element: <AppRoot />,
       ErrorBoundary: AppRootErrorBoundary,
-      HydrateFallback: AppRoot,
+      HydrateFallback: Spinner,
       children: [
         {
           path: paths.app.dashboard.path,
-          lazy: async () => {
-            const { DashboardRoute } = await import("./routes/app/dashboard");
-            return {
+          lazy: () =>
+            import("./routes/app/dashboard").then(({ DashboardRoute }) => ({
               Component: DashboardRoute,
-            };
-          },
-          ErrorBoundary: AppRootErrorBoundary,
+            })),
         },
         {
           path: paths.app.hotels.path,
-          lazy: async () => {
-            const { HotelsRoute } = await import("./routes/app/hotels");
-            return {
+          lazy: () =>
+            import("./routes/app/hotels").then(({ HotelsRoute }) => ({
               Component: HotelsRoute,
-            };
-          },
-          ErrorBoundary: AppRootErrorBoundary,
+            })),
         },
       ],
     },
     {
       path: "*",
-      lazy: async () => {
-        const { NotFoundRoute } = await import("./routes/not-found");
-        return {
+      lazy: async () =>
+        import("./routes/not-found").then(({ NotFoundRoute }) => ({
           Component: NotFoundRoute,
-        };
-      },
-      ErrorBoundary: AppRootErrorBoundary,
+        })),
     },
   ]);
 
