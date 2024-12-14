@@ -5,5 +5,9 @@ type LinkProps = React.LinkHTMLAttributes<HTMLLinkElement> & {
 };
 
 export const Link = (props: LinkProps) => {
-  return <NavLink to={props.to}>{props.children}</NavLink>;
+  return (
+    <NavLink to={props.to} className={props.className}>
+      {props.children}
+    </NavLink>
+  );
 };
