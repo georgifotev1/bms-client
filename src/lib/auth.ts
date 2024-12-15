@@ -26,13 +26,11 @@ const logout = (): Promise<void> => {
   return api.post("/auth/logout");
 };
 
-const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
+const login = (data: LoginInput): Promise<AuthResponse> => {
   return api.post("/auth/login", data);
 };
 
-const registerWithEmailAndPassword = (
-  data: RegisterInput,
-): Promise<AuthResponse> => {
+const register = (data: RegisterInput): Promise<AuthResponse> => {
   return api.post("/auth/register", data);
 };
 
@@ -47,8 +45,9 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: loginWithEmailAndPassword,
+    mutationFn: login,
     onSuccess: (data) => {
+      console.log(data);
       queryClient.setQueryData(["user"], data.user);
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
@@ -59,9 +58,10 @@ export const useRegister = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: registerWithEmailAndPassword,
+    mutationFn: register,
     onSuccess: (data) => {
-      queryClient.setQueryData(["user"], data.user);
+      console.log(data);
+      queryClient.setQueryData(["user"], data);
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });

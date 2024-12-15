@@ -1,54 +1,27 @@
-import { Link } from "react-router";
-import { Form, FormField } from "../../../components/ui/form/form";
+import { Form } from "../../../components/ui/form/form";
+import { AuthFooter } from "../../../components/ui/form/form-footer";
 import { paths } from "../../../config/paths";
+import { useLogin } from "../../../lib/auth";
+import { loginFields } from "./form-content";
 
 export const LoginRoute = () => {
-  const loginFields: FormField[] = [
-    {
-      type: "email",
-      name: "email",
-      id: "email",
-      label: "Your email",
-      placeholder: "name@company.com",
-      required: true,
-    },
-    {
-      type: "password",
-      name: "password",
-      id: "password",
-      label: "Your password",
-      placeholder: "••••••••",
-      required: true,
-    },
-  ];
-
-  const handleSubmit = (data: any) => {
-    console.log("Form data:", data);
-    // Handle login logic
-  };
-
-  const FormFooter = (
-    <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Not registered?{" "}
-      <Link
-        to={paths.auth.register.path}
-        className="text-blue-700 hover:underline dark:text-blue-500"
-      >
-        Create account
-      </Link>
-    </div>
-  );
-
+  const login = useLogin();
   return (
     <div className="w-full h-screen flex">
       <div className="m-auto w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <Form
           title="Sign in to our platform"
           fields={loginFields}
-          onSubmit={handleSubmit}
+          onSubmit={(data) => login.mutate(data)}
           submitButtonText="Login to your account"
         >
-          {FormFooter}
+          {
+            <AuthFooter
+              path={paths.auth.register.path}
+              text="Not recgistered?"
+              linkText="Create account"
+            />
+          }
         </Form>
       </div>
     </div>

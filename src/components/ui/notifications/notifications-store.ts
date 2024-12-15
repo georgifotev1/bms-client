@@ -12,6 +12,7 @@ type NotificationsStore = {
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, "id">) => void;
   dismissNotification: (id: string) => void;
+  dismissAllNotifications: () => void;
 };
 
 export const useNotifications = create<NotificationsStore>((set) => ({
@@ -28,5 +29,9 @@ export const useNotifications = create<NotificationsStore>((set) => ({
       notifications: state.notifications.filter(
         (notification) => notification.id !== id,
       ),
+    })),
+  dismissAllNotifications: () =>
+    set(() => ({
+      notifications: [],
     })),
 }));
