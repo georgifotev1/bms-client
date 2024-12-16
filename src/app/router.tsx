@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { paths } from "../config/paths";
-import { AppRoot, AppRootErrorBoundary } from "./routes/app/root";
 import { Spinner } from "../components/ui/spinner/spinner";
+import { paths } from "../config/paths";
+import { ProtectedRoute } from "../lib/protected-route";
+import { AppRoot, AppRootErrorBoundary } from "./routes/app/root";
 
 const createAppRouter = () =>
   createBrowserRouter([
@@ -31,7 +32,11 @@ const createAppRouter = () =>
     },
     {
       path: paths.app.root.path,
-      element: <AppRoot />,
+      element: (
+        <ProtectedRoute>
+          <AppRoot />,
+        </ProtectedRoute>
+      ),
       ErrorBoundary: AppRootErrorBoundary,
       HydrateFallback: Spinner,
       children: [

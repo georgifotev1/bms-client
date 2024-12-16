@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
-import { AuthResponse, User } from "../types/api";
+import { User } from "../types/api";
 import { api } from "./api-client";
+import { useNavigate } from "react-router";
+import { paths } from "../config/paths";
 
 export const loginInputSchema = z.object({
   email: z.string().min(1, "Required").email("Invalid email"),
@@ -26,11 +28,11 @@ const logout = (): Promise<void> => {
   return api.post("/auth/logout");
 };
 
-const login = (data: LoginInput): Promise<AuthResponse> => {
+const login = (data: LoginInput): Promise<any> => {
   return api.post("/auth/login", data);
 };
 
-const register = (data: RegisterInput): Promise<AuthResponse> => {
+const register = (data: RegisterInput): Promise<any> => {
   return api.post("/auth/register", data);
 };
 
@@ -43,13 +45,13 @@ export const useUser = () => {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      console.log(data);
-      queryClient.setQueryData(["user"], data.user);
+      queryClient.setQueryData(["user"], data);
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate(paths.app.dashboard.getHref());
     },
   });
 };

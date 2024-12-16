@@ -14,7 +14,7 @@ function interceptor(
     {
       ...init,
       headers,
-      // credentials: 'include',
+      credentials: "include",
     },
   ];
 }
@@ -27,7 +27,6 @@ async function fetchWrapper(
 
   try {
     const response = await fetch(`${env.API_URL}${url}`, config);
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
       const message = errorData?.message || response.statusText;
