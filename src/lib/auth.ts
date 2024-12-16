@@ -62,7 +62,6 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: register,
     onSuccess: (data) => {
-      console.log(data);
       queryClient.setQueryData(["user"], data);
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
