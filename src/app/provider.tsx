@@ -1,12 +1,12 @@
-import { useState, Suspense, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { queryConfig } from "../lib/react-query";
-import { Spinner } from "../components/ui/spinner/spinner";
-import { ErrorBoundary } from "react-error-boundary";
-import { MainErrorFallback } from "../components/errors/main";
-import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactNode, Suspense, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { HelmetProvider } from "react-helmet-async";
+import { MainErrorFallback } from "../components/errors/main";
 import { Notifications } from "../components/ui/notifications/notifications";
+import { Spinner } from "../components/ui/spinner/spinner";
+import { queryConfig } from "../lib/react-query";
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(

@@ -2,19 +2,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { User } from "../types/api";
 import { api } from "./api-client";
-import { useNavigate } from "react-router";
-import { paths } from "../config/paths";
 
 export const loginInputSchema = z.object({
   email: z.string().min(1, "Required").email("Invalid email"),
-  password: z.string().min(5, "Required"),
+  password: z.string().min(3, "Required"),
 });
 
 export const registerInputSchema = z.object({
-  email: z.string().min(1, "Required"),
+  email: z.string().min(1, "Required").email("Invalid email"),
   first_name: z.string().min(1, "Required"),
   last_name: z.string().min(1, "Required"),
-  password: z.string().min(5, "Required"),
+  password: z.string().min(3, "Required"),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
@@ -45,13 +43,11 @@ export const useUser = () => {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data);
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      navigate(paths.app.dashboard.getHref());
     },
   });
 };

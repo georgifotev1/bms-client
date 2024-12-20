@@ -1,5 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import { ZodObject } from "zod";
 import { cn } from "../../../utils/cn";
+import { Spinner } from "../spinner/spinner";
+import { Error } from "./error";
+import { handleZodValidation, ValidationError } from "./validation";
 
 export type FormField = {
   type: string;
@@ -13,9 +17,11 @@ export type FormField = {
 type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   title?: string;
   fields: FormField[];
-  onSubmit: (data: any) => void;
+  onFormSubmit: (data: any) => void;
+  schema: ZodObject<any>;
+  isLoading: boolean;
+  apiError: string;
   submitButtonText?: string;
-  children?: ReactNode;
   footer?: ReactNode;
 };
 
@@ -24,30 +30,34 @@ const defaultInputClasses =
 const defaultLabelClasses =
   "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
 
-export const Form = ({
-  title,
-  fields,
-  onSubmit,
-  submitButtonText = "Submit",
-  children,
-  footer,
-  ...props
-}: FormProps) => {
+export const Form = (props: FormProps) => {
+  const [errors, setErrors] = useState<ValidationError<typeof props.schema>>(
+    {},
+  );
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    onSubmit(data);
+
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+
+    handleZodValidation({
+      onError: setErrors,
+      data: data,
+      onSuccess: (validatedData) => {
+        props.onFormSubmit(validatedData);
+      },
+      schema: props.schema,
+    });
   };
 
+  const btnText = props.submitButtonText ?? "Submit";
   return (
-    <form className="space-y-6" onSubmit={handleSubmit} {...props}>
-      {title && (
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      {props.title && (
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">
-          {title}
+          {props.title}
         </h5>
       )}
-      {fields?.map((field) => (
+      {props.fields?.map((field) => (
         <div key={field.id}>
           <label
             htmlFor={field.id}
@@ -63,19 +73,21 @@ export const Form = ({
             className={cn(defaultInputClasses, props.className)}
             required={field.required}
           />
+          <Error errorMessage={errors[field.name]} />
         </div>
       ))}
-
-      {children}
+      <Error errorMessage={props.apiError} />
+      {props.children}
 
       <button
         type="submit"
-        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        disabled={props.isLoading}
+        className="flex justify-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        {submitButtonText}
+        {props.isLoading ? <Spinner size="sm" /> : btnText}
       </button>
 
-      {footer}
+      {props.footer}
     </form>
   );
 };
