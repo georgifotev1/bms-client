@@ -3,7 +3,7 @@ import { ZodObject } from "zod";
 import { cn } from "../../../utils/cn";
 import { Spinner } from "../spinner/spinner";
 import { Error } from "./error";
-import { handleZodValidation, ValidationError } from "./validation";
+import { handleFormValidation, ValidationError } from "./validation";
 
 export type FormField = {
   type: string;
@@ -39,7 +39,7 @@ export const Form = (props: FormProps) => {
 
     const data = Object.fromEntries(new FormData(e.currentTarget));
 
-    handleZodValidation({
+    handleFormValidation({
       onError: setErrors,
       data: data,
       onSuccess: (validatedData) => {
