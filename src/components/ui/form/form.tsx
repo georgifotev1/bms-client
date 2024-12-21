@@ -28,7 +28,7 @@ type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
 const defaultInputClasses =
   "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white";
 const defaultLabelClasses =
-  "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
+  "mb-2 text-sm font-medium text-gray-900 dark:text-white";
 
 export const Form = (props: FormProps) => {
   const [errors, setErrors] = useState<ValidationError<typeof props.schema>>(
@@ -59,12 +59,15 @@ export const Form = (props: FormProps) => {
       )}
       {props.fields?.map((field) => (
         <div key={field.id}>
-          <label
-            htmlFor={field.id}
-            className={cn(defaultLabelClasses, props.className)}
-          >
-            {field.label}
-          </label>
+          <div className="flex justify-between">
+            <label
+              htmlFor={field.id}
+              className={cn(defaultLabelClasses, props.className)}
+            >
+              {field.label}
+            </label>
+            <Error errorMessage={errors[field.name]} />
+          </div>
           <input
             type={field.type}
             name={field.name}
@@ -73,7 +76,6 @@ export const Form = (props: FormProps) => {
             className={cn(defaultInputClasses, props.className)}
             required={field.required}
           />
-          <Error errorMessage={errors[field.name]} />
         </div>
       ))}
       <Error errorMessage={props.apiError} />
