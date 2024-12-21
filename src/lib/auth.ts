@@ -5,14 +5,14 @@ import { api } from "./api-client";
 
 export const loginInputSchema = z.object({
   email: z.string().min(1, "Required").email("Invalid email"),
-  password: z.string().min(3, "Required"),
+  password: z.string().min(3, "Invalid Password"),
 });
 
 export const registerInputSchema = z.object({
   email: z.string().min(1, "Required").email("Invalid email"),
   first_name: z.string().min(1, "Required"),
   last_name: z.string().min(1, "Required"),
-  password: z.string().min(3, "Required"),
+  password: z.string().min(3, "Invalid Password"),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;

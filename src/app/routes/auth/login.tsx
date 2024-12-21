@@ -30,13 +30,11 @@ export const LoginRoute = () => {
           apiError={err}
           submitButtonText="Login to your account"
         >
-          {
-            <AuthFooter
-              path={paths.auth.register.path}
-              text="Not registered?"
-              linkText="Create account"
-            />
-          }
+          <AuthFooter
+            path={paths.auth.register.path}
+            text="Not registered?"
+            linkText="Create account"
+          />
         </Form>
       </div>
     </div>

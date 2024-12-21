@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { ZodObject } from "zod";
 import { cn } from "../../../utils/cn";
 import { Spinner } from "../spinner/spinner";
@@ -22,7 +22,6 @@ type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   isLoading: boolean;
   apiError: string;
   submitButtonText?: string;
-  footer?: ReactNode;
 };
 
 const defaultInputClasses =
@@ -88,8 +87,6 @@ export const Form = (props: FormProps) => {
       >
         {props.isLoading ? <Spinner size="sm" /> : btnText}
       </button>
-
-      {props.footer}
     </form>
   );
 };

@@ -3,11 +3,17 @@ import { Form } from "../../../components/ui/form/form";
 import { AuthFooter } from "../../../components/ui/form/form-footer";
 import { Link } from "../../../components/ui/link/link";
 import { paths } from "../../../config/paths";
-import { useRegister } from "../../../lib/auth";
+import { registerInputSchema, useRegister } from "../../../lib/auth";
 import { registerFields } from "./form-content";
 
 export const RegisterRoute = () => {
   const register = useRegister();
+
+  let err = "";
+
+  if (register.isError) {
+    err = register.error.message;
+  }
 
   return (
     <div className="w-full h-screen flex">
@@ -34,7 +40,10 @@ export const RegisterRoute = () => {
           <Form
             title="Register to our platform"
             fields={registerFields}
-            onSubmit={(data) => register.mutate(data)}
+            schema={registerInputSchema}
+            onFormSubmit={(data) => register.mutate(data)}
+            isLoading={register.isPending}
+            apiError={err}
             submitButtonText="Create account"
           >
             {
