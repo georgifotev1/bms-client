@@ -1,3 +1,4 @@
+import { Navigate } from "react-router";
 import { Form } from "../../../components/ui/form/form";
 import { AuthFooter } from "../../../components/ui/form/form-footer";
 import { paths } from "../../../config/paths";
@@ -6,10 +7,15 @@ import { loginFields } from "./form-content";
 
 export const LoginRoute = () => {
   const login = useLogin();
+
   let err = "";
 
   if (login.isError) {
     err = login.error.message;
+  }
+
+  if (login.isSuccess) {
+    return <Navigate to={paths.app.dashboard.getHref()} />;
   }
 
   return (
