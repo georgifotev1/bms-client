@@ -3,12 +3,12 @@ import { api } from "../../../lib/api-client";
 import { HotelsData } from "../../../types/api";
 
 const getHotels = (): Promise<HotelsData[]> => {
-  return api.get("/hotels");
+    return api.get("/hotels");
 };
 
 export const useHotels = () => {
-  return useQuery({
-    queryKey: ["hotels"],
-    queryFn: () => getHotels(),
-  });
+    return useQuery({
+        queryKey: ["hotels"],
+        queryFn: () => getHotels(),
+    });
 };

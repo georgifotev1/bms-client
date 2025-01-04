@@ -1,9 +1,11 @@
 import { forwardRef } from "react";
 import { cn } from "../../../utils/cn";
 
+export type ButtonVariants = "default" | "alternative" | "custom";
+
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     type?: "button" | "submit" | "reset";
-    variant?: "default" | "alternative" | "custom";
+    variant?: ButtonVariants;
     children: React.ReactNode;
     onClick?: () => void;
 };

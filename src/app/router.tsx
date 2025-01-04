@@ -5,66 +5,61 @@ import { ProtectedRoute } from "../lib/protected-route";
 import { AppRoot, AppRootErrorBoundary } from "./routes/app/root";
 
 const createAppRouter = () =>
-  createBrowserRouter([
-    {
-      path: paths.home.path,
-      HydrateFallback: Spinner,
-      lazy: () =>
-        import("./routes/landing").then(({ LandinRoute }) => ({
-          Component: LandinRoute,
-        })),
-    },
-    {
-      path: paths.auth.register.path,
-      HydrateFallback: Spinner,
-      lazy: () =>
-        import("./routes/auth/register").then(({ RegisterRoute }) => ({
-          Component: RegisterRoute,
-        })),
-    },
-    {
-      path: paths.auth.login.path,
-      HydrateFallback: Spinner,
-      lazy: () =>
-        import("./routes/auth/login").then(({ LoginRoute }) => ({
-          Component: LoginRoute,
-        })),
-    },
-    {
-      path: paths.app.root.path,
-      element: (
-        <ProtectedRoute>
-          <AppRoot />,
-        </ProtectedRoute>
-      ),
-      ErrorBoundary: AppRootErrorBoundary,
-      HydrateFallback: Spinner,
-      children: [
+    createBrowserRouter([
         {
-          path: paths.app.dashboard.path,
-          lazy: () =>
-            import("./routes/app/dashboard").then(({ DashboardRoute }) => ({
-              Component: DashboardRoute,
-            })),
+            path: paths.home.path,
+            HydrateFallback: Spinner,
+            lazy: () =>
+                import("./routes/landing").then(({ LandinRoute }) => ({
+                    Component: LandinRoute,
+                })),
         },
         {
-          path: paths.app.hotels.path,
-          lazy: () =>
-            import("./routes/app/hotels").then(({ HotelsRoute }) => ({
-              Component: HotelsRoute,
-            })),
+            path: paths.auth.register.path,
+            HydrateFallback: Spinner,
+            lazy: () =>
+                import("./routes/auth/register").then(({ RegisterRoute }) => ({
+                    Component: RegisterRoute,
+                })),
         },
-      ],
-    },
-    {
-      path: "*",
-      lazy: async () =>
-        import("./routes/not-found").then(({ NotFoundRoute }) => ({
-          Component: NotFoundRoute,
-        })),
-    },
-  ]);
+        {
+            path: paths.auth.login.path,
+            HydrateFallback: Spinner,
+            lazy: () =>
+                import("./routes/auth/login").then(({ LoginRoute }) => ({
+                    Component: LoginRoute,
+                })),
+        },
+        {
+            path: paths.app.root.path,
+            element: (
+                <ProtectedRoute>
+                    <AppRoot />,
+                </ProtectedRoute>
+            ),
+            ErrorBoundary: AppRootErrorBoundary,
+            HydrateFallback: Spinner,
+            children: [
+                {
+                    path: paths.app.dashboard.path,
+                    lazy: () =>
+                        import("./routes/app/dashboard").then(
+                            ({ DashboardRoute }) => ({
+                                Component: DashboardRoute,
+                            }),
+                        ),
+                },
+            ],
+        },
+        {
+            path: "*",
+            lazy: async () =>
+                import("./routes/not-found").then(({ NotFoundRoute }) => ({
+                    Component: NotFoundRoute,
+                })),
+        },
+    ]);
 
 export const AppRouter = () => {
-  return <RouterProvider router={createAppRouter()} />;
+    return <RouterProvider router={createAppRouter()} />;
 };

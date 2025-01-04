@@ -13,6 +13,7 @@ export const ProfileButton = () => {
 
     return (
         <Dropdown
+            dropdownPosition="center"
             items={[
                 {
                     label: "Profile",
