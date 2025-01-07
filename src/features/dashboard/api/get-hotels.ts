@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../lib/api-client";
-import { HotelsData } from "../../../types/api";
+import { Hotel } from "../../../types/api";
 
-const getHotels = (): Promise<HotelsData[]> => {
+const getHotels = (): Promise<Hotel[]> => {
     return api.get("/hotels");
 };
 
