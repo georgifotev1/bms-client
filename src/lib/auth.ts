@@ -23,7 +23,7 @@ const getUser = async (): Promise<User> => {
 };
 
 const logout = (): Promise<void> => {
-    return api.post("/auth/logout");
+    return api.post("/logout");
 };
 
 const login = (data: LoginInput): Promise<any> => {

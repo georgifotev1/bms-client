@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Hotel } from "../types/api";
 import { getStorageItem } from "../utils/localstorage";
 import { selectedHotelKey } from "../utils/constants";
+import { devtools } from "zustand/middleware";
 
 type SelectedHotelStore = {
     selectedHotel: Hotel;
@@ -13,11 +14,16 @@ const defaultSelectedHotel: Hotel = {
     name: "",
     address: "",
 };
-export const useSelectedHotelStore = create<SelectedHotelStore>((set) => ({
-    selectedHotel:
-        getStorageItem<Hotel>(selectedHotelKey) ?? defaultSelectedHotel,
-    setSelectedHotel: (hotel) =>
-        set(() => ({
-            selectedHotel: hotel,
-        })),
-}));
+export const useSelectedHotelStore = create<
+    SelectedHotelStore,
+    [["zustand/devtools", never]]
+>(
+    devtools((set) => ({
+        selectedHotel:
+            getStorageItem<Hotel>(selectedHotelKey) ?? defaultSelectedHotel,
+        setSelectedHotel: (hotel: Hotel) =>
+            set(() => ({
+                selectedHotel: hotel,
+            })),
+    })),
+);
