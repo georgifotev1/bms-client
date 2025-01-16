@@ -1,6 +1,25 @@
-import { ChevronDown, List, PieChart } from "lucide-react";
+import { Bed, LucideIcon, PieChart } from "lucide-react";
 import { NavLink } from "react-router";
 import { paths } from "../../../../config/paths";
+
+type DashboardPage = {
+    path: string;
+    icon: LucideIcon;
+    label: string;
+};
+
+const pages: DashboardPage[] = [
+    {
+        path: paths.app.dashboard.getHref(),
+        icon: PieChart,
+        label: "Dashboard",
+    },
+    {
+        path: paths.app.rooms.getHref(),
+        icon: Bed,
+        label: "Rooms",
+    },
+];
 
 export const SideBar = () => {
     return (
@@ -11,29 +30,17 @@ export const SideBar = () => {
         >
             <div className="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
                 <ul className="space-y-2">
-                    <li>
-                        <NavLink
-                            to={paths.app.dashboard.getHref()}
-                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                        >
-                            <PieChart />
-                            <span className="ml-3">Dashboard</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            className="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                            aria-controls="dropdown-pages"
-                            data-collapse-toggle="dropdown-pages"
-                        >
-                            <List />
-                            <span className="flex-1 ml-3 text-left whitespace-nowrap">
-                                Pages
-                            </span>
-                            <ChevronDown />
-                        </button>
-                    </li>
+                    {pages.map((page) => (
+                        <li key={page.path}>
+                            <NavLink
+                                to={page.path}
+                                className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <page.icon />
+                                <span className="ml-3">{page.label}</span>
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </aside>

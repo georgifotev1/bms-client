@@ -49,6 +49,13 @@ const createAppRouter = () =>
                             }),
                         ),
                 },
+                {
+                    path: paths.app.rooms.path,
+                    lazy: () =>
+                        import("./routes/app/rooms").then(({ RoomsRoute }) => ({
+                            Component: RoomsRoute,
+                        })),
+                },
             ],
         },
         {

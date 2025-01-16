@@ -19,3 +19,12 @@ export type AuthResponse = {
     user: User;
     token: string;
 };
+
+export type Room = {
+    room_id: string;
+    hotel_id: string;
+    room_number: number;
+    price_per_night: string;
+    is_available: boolean;
+    type: string;
+};
