@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../../../../lib/api-client";
-import { Room } from "../../../../types/api";
+import { api } from "../../../lib/api-client";
+import { Room } from "../../../types/api";
 
 const getRooms = (hotelId: string): Promise<Room[]> => {
     return api.get(`/hotels/${hotelId}/rooms`);

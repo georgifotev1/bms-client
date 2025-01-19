@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { useEffect } from "react";
 import { Dropdown } from "../../../../components/ui/dropdown/dropdown";
 import { Spinner } from "../../../../components/ui/spinner/spinner";
 import { useSelectedHotelStore } from "../../../../store/selected-hotel-store";
@@ -12,11 +13,13 @@ export const HotelPicker = () => {
     const hotelsQuery = useHotels();
     const hotels = hotelsQuery.data;
 
-    if (!hotels) return null;
+    useEffect(() => {
+        if (hotels && !selectedHotel.hotel_id) {
+            setSelectedHotel(hotels[0]);
+        }
+    }, [hotels, selectedHotel.hotel_id, setSelectedHotel]);
 
-    if (!selectedHotel.hotel_id) {
-        setSelectedHotel(hotels[0]);
-    }
+    if (!hotels) return null;
     return (
         <>
             {hotelsQuery.isLoading ? (

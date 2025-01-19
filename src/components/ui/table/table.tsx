@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import { cn } from "../../../utils/cn";
+import { Button } from "../button/button";
 
+type TableAction<T> = {
+    icon: ReactNode;
+    onClick: (data: T) => void;
+};
 type TableProps<T extends object> =
     React.TableHTMLAttributes<HTMLTableElement> & {
         columns: Record<
@@ -12,10 +17,12 @@ type TableProps<T extends object> =
             }
         >;
         data: T[];
+        actions?: TableAction<T>[];
     };
 
 export const Table = <T extends object>(props: TableProps<T>) => {
-    const { columns, data } = props;
+    const { columns, data, actions = [] } = props;
+    const hasActions = actions.length > 0;
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -37,9 +44,11 @@ export const Table = <T extends object>(props: TableProps<T>) => {
                                 </th>
                             );
                         })}
-                        <th scope="col" className="px-6 py-3">
-                            <span className="sr-only">Edit</span>
-                        </th>
+                        {hasActions && (
+                            <th scope="col" className="px-6 py-3 text-right">
+                                <span>Actions</span>
+                            </th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>
@@ -62,14 +71,20 @@ export const Table = <T extends object>(props: TableProps<T>) => {
                                     </td>
                                 );
                             })}
-                            <td className="px-6 py-4 w-8 text-right">
-                                <a
-                                    href="#"
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >
-                                    Edit
-                                </a>
-                            </td>
+                            {hasActions && (
+                                <td className="px-6 py-4 flex justify-end gap-2">
+                                    {actions.map((action, key) => (
+                                        <Button
+                                            key={key}
+                                            onClick={() =>
+                                                action.onClick(rowData)
+                                            }
+                                        >
+                                            {action.icon}
+                                        </Button>
+                                    ))}
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>
