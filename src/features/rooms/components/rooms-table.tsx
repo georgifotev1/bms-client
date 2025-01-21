@@ -1,34 +1,49 @@
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { Form } from "../../../components/ui/form/form";
+import { populateFormDefaults } from "../../../components/ui/form/populate-form-defaults";
 import { Modal } from "../../../components/ui/modal/modal";
 import { Table } from "../../../components/ui/table/table";
-import { useSelectedHotelStore } from "../../../store/selected-hotel-store";
 import { Room } from "../../../types/api";
-import { useRooms } from "../api/get-rooms";
+import { updateRoomSchema, useUpdateRoom } from "../api/update-room";
+import { updateRoomFormFields } from "./update-room-fields";
 
-export const RoomsTable = () => {
-    const { selectedHotel } = useSelectedHotelStore();
-
-    const roomsQuery = useRooms(selectedHotel.hotel_id);
-    const rooms = roomsQuery.data;
-
+type RoomsTableProps = {
+    rooms: Room[];
+};
+export const RoomsTable = ({ rooms }: RoomsTableProps) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
-    const handleEdit = () => {
+    const updateRoom = useUpdateRoom();
+
+    const handleEdit = (data: any) => {
         if (selectedRoom) {
-            console.log(selectedRoom);
+            updateRoom.mutate(
+                {
+                    hotelId: selectedRoom.hotel_id,
+                    roomId: selectedRoom.room_id,
+                    data: {
+                        price_per_night: data.price_per_night,
+                        is_available: data.is_available === "true",
+                    },
+                },
+                {
+                    onSuccess: () => {
+                        setIsEditModalOpen(false);
+                    },
+                },
+            );
         }
     };
 
     const handleDelete = () => {
         if (selectedRoom) {
-            console.log(selectedRoom);
+            console.log("deleted");
         }
     };
 
-    if (!rooms) return null;
     return (
         <>
             <Table
@@ -81,14 +96,21 @@ export const RoomsTable = () => {
                     <Modal
                         isOpen={isEditModalOpen}
                         onDismiss={() => setIsEditModalOpen(false)}
-                        onAction={handleEdit}
                         actionLabel="Save"
                         title="Edit Room"
                         size="lg"
                     >
-                        <div>
-                            <p>Editing Room #{selectedRoom?.room_number}</p>
-                        </div>
+                        <Form
+                            fields={populateFormDefaults(
+                                selectedRoom,
+                                updateRoomFormFields,
+                            )}
+                            onFormSubmit={handleEdit}
+                            schema={updateRoomSchema}
+                            isLoading={updateRoom.isPending}
+                            apiError={updateRoom.error?.message ?? ""}
+                            submitButtonText="Update Room"
+                        />
                     </Modal>
 
                     <Modal

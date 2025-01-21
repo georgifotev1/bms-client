@@ -12,6 +12,9 @@ export type FormField = {
     label: string;
     placeholder?: string;
     required?: boolean;
+    defaultValue?: string | number;
+    disabled?: boolean;
+    options?: { label: string; value: string | number }[];
 };
 
 type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
@@ -48,6 +51,37 @@ export const Form = (props: FormProps) => {
         });
     };
 
+    const renderField = (field: FormField) => {
+        const commonProps = {
+            name: field.name,
+            id: field.id,
+            className: cn(defaultInputClasses, props.className),
+            required: field.required,
+            defaultValue: field.defaultValue,
+            disabled: field.disabled,
+        };
+
+        switch (field.type) {
+            case "select":
+                return (
+                    <select {...commonProps}>
+                        {field.options?.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
+                );
+            default:
+                return (
+                    <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        {...commonProps}
+                    />
+                );
+        }
+    };
     const btnText = props.submitButtonText ?? "Submit";
     return (
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -67,14 +101,8 @@ export const Form = (props: FormProps) => {
                         </label>
                         <Error errorMessage={errors[field.name]} />
                     </div>
-                    <input
-                        type={field.type}
-                        name={field.name}
-                        id={field.id}
-                        placeholder={field.placeholder}
-                        className={cn(defaultInputClasses, props.className)}
-                        required={field.required}
-                    />
+
+                    {renderField(field)}
                 </div>
             ))}
             <Error errorMessage={props.apiError} />
