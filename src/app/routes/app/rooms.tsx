@@ -1,5 +1,5 @@
 import { useRooms } from "../../../features/rooms/api/get-rooms";
-import { RoomsTable } from "../../../features/rooms/components/rooms-table";
+import { RoomsTable } from "../../../features/rooms/components/list-rooms";
 import { useSelectedHotelStore } from "../../../store/selected-hotel-store";
 
 export const RoomsRoute = () => {
